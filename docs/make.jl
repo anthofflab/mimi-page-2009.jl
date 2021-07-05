@@ -1,8 +1,8 @@
 using Documenter
 
 makedocs(
-	sitename = "MimiPAGE2009.jl",
-	pages = [
+	sitename="MimiPAGE2009.jl",
+	pages=[
 		"Home" => "index.md",
 		"Getting started" => "gettingstarted.md",
 		"Model Structure" => "model-structure.md",
@@ -11,5 +11,5 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/anthofflab/MimiPAGE2009.jl.git"
+    repo="github.com/anthofflab/MimiPAGE2009.jl.git"
 )

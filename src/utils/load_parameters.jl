@@ -1,7 +1,7 @@
 using DelimitedFiles
 
 function checkregionorder(model::Model, regions, file)
-    regionaliases = Dict{AbstractString, Vector{AbstractString}}("EU" => [],
+    regionaliases = Dict{AbstractString,Vector{AbstractString}}("EU" => [],
                                                                  "USA" => ["US"],
                                                                  "OECD" => ["OT"],
                                                                  "Africa" => ["AF"],
@@ -41,7 +41,7 @@ function readpagedata(model::Model, filepath::AbstractString)
         # Check that regions are in the right order
         checkregionorder(model, data[1][:, 1], basename(filepath))
 
-        return convert(Vector{Float64},vec(data[1][:, 2]))
+        return convert(Vector{Float64}, vec(data[1][:, 2]))
     elseif firstline == "# Index: time"
         data = readdlm(filepath, ',', header=true, comments=true)
 
@@ -50,7 +50,7 @@ function readpagedata(model::Model, filepath::AbstractString)
 
         return convert(Vector{Float64}, vec(data[1][:, 2]))
     elseif firstline == "# Index: time, region"
-        data = readdlm(filepath, ',', header=true, comments = true)
+        data = readdlm(filepath, ',', header=true, comments=true)
 
         # Check that both dimension match
         checktimeorder(model, data[1][:, 1], basename(filepath))
@@ -63,10 +63,10 @@ function readpagedata(model::Model, filepath::AbstractString)
 end
 
 function load_parameters(model::Model, policy::String="policy-a")
-    parameters = Dict{Any, Any}()
+    parameters = Dict{Any,Any}()
 
     parameter_directory = joinpath(dirname(@__FILE__), "..", "..", "data")
-    for file in filter(q->splitext(q)[2]==".csv", readdir(parameter_directory))
+    for file in filter(q -> splitext(q)[2] == ".csv", readdir(parameter_directory))
         parametername = splitext(file)[1]
 
         if policy != "policy-a" && isfile(joinpath(parameter_directory, policy, file))

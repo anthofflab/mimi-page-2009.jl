@@ -45,7 +45,7 @@ include("components/EquityWeighting.jl")
 
 function buildpage(m::Model, policy::String="policy-a")
 
-    #add all the components
+    # add all the components
     add_comp!(m, co2emissions)
     add_comp!(m, co2cycle)
     add_comp!(m, co2forcing)
@@ -63,11 +63,11 @@ function buildpage(m::Model, policy::String="policy-a")
     add_comp!(m, ClimateTemperature)
     add_comp!(m, SeaLevelRise)
 
-    #Socio-Economics
+    # Socio-Economics
     addpopulation(m)
     add_comp!(m, GDP)
 
-    #Abatement Costs 
+    # Abatement Costs 
 
     addabatementcostparameters(m, :CO2, policy)
     addabatementcostparameters(m, :CH4, policy)
@@ -91,7 +91,7 @@ function buildpage(m::Model, policy::String="policy-a")
     addabatementcosts(m, :Lin, policy)
     add_comp!(m, TotalAbatementCosts)
 
-    #Adaptation Costs
+    # Adaptation Costs
     addadaptationcosts_sealevel(m)
     addadaptationcosts_economic(m)
     addadaptationcosts_noneconomic(m)
@@ -108,10 +108,10 @@ function buildpage(m::Model, policy::String="policy-a")
     # Total costs component 
     add_comp!(m, TotalCosts)
 
-    #Equity weighting and Total Costs
+    # Equity weighting and Total Costs
     add_comp!(m, EquityWeighting)
 
-    #connect parameters together
+    # connect parameters together
     connect_param!(m, :co2cycle => :e_globalCO2emissions, :co2emissions => :e_globalCO2emissions)
     connect_param!(m, :co2cycle => :rt_g0_baseglobaltemp, :ClimateTemperature => :rt_g0_baseglobaltemp)
     connect_param!(m, :co2cycle => :rt_g_globaltemperature, :ClimateTemperature => :rt_g_globaltemperature)
@@ -202,7 +202,7 @@ function buildpage(m::Model, policy::String="policy-a")
     connect_param!(m, :NonMarketDamages => :rtl_realizedtemperature, :ClimateTemperature => :rtl_realizedtemperature)
     connect_param!(m, :NonMarketDamages => :rgdp_per_cap_MarketRemainGDP, :MarketDamages => :rgdp_per_cap_MarketRemainGDP)
     connect_param!(m, :NonMarketDamages => :rcons_per_cap_MarketRemainConsumption, :MarketDamages => :rcons_per_cap_MarketRemainConsumption)
-    connect_param!(m, :NonMarketDamages =>:atl_adjustedtolerableleveloftemprise, :AdaptiveCostsNonEconomic =>:atl_adjustedtolerablelevel, ignoreunits=true)
+    connect_param!(m, :NonMarketDamages => :atl_adjustedtolerableleveloftemprise, :AdaptiveCostsNonEconomic => :atl_adjustedtolerablelevel, ignoreunits=true)
     connect_param!(m, :NonMarketDamages => :imp_actualreduction, :AdaptiveCostsNonEconomic => :imp_adaptedimpacts)
     connect_param!(m, :NonMarketDamages => :isatg_impactfxnsaturation, :GDP => :isatg_impactfxnsaturation)
 
