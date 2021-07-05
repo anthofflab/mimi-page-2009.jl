@@ -12,7 +12,7 @@ end
 function getperiodlength(year)      # same calculations made for yagg_periodspan in the model
     i = getpageindexfromyear(year)
 
-    if year==page_years[1]
+    if year == page_years[1]
         start_year = page_year_0
     else
         start_year = page_years[i - 1]
@@ -41,10 +41,10 @@ function undiscount_scc(m::Model, year::Int)
 end
 
 @defcomp ExtraEmissions begin
-    e_globalCO2emissions = Parameter(index=[time],unit="Mtonne/year")
+    e_globalCO2emissions = Parameter(index=[time], unit="Mtonne/year")
     pulse_size = Parameter(unit="Mtonne CO2")
     pulse_year = Parameter()
-    e_globalCO2emissions_adjusted = Variable(index=[time],unit="Mtonne/year")
+    e_globalCO2emissions_adjusted = Variable(index=[time], unit="Mtonne/year")
 
     function run_timestep(p, v, d, t)
         if gettime(t) == p.pulse_year
@@ -92,15 +92,15 @@ Optionally providing a `seed` value will set the random seed before running the 
 results to be replicated.
 """
 function compute_scc(
-        m::Model = get_model();
-        year::Union{Int, Nothing} = nothing,
-        eta::Union{Float64, Nothing} = nothing,
-        prtp::Union{Float64, Nothing} = nothing,
-        equity_weighting::Bool = true,
-        pulse_size = 100_000.,
+        m::Model=get_model();
+        year::Union{Int,Nothing}=nothing,
+        eta::Union{Float64,Nothing}=nothing,
+        prtp::Union{Float64,Nothing}=nothing,
+        equity_weighting::Bool=true,
+        pulse_size=100_000.,
         n::Union{Int,Nothing}=nothing,
-        trials_output_filename::Union{String, Nothing} = nothing,
-        seed::Union{Int, Nothing} = nothing
+        trials_output_filename::Union{String,Nothing}=nothing,
+        seed::Union{Int,Nothing}=nothing
         )
 
     year === nothing ? error("Must specify an emission year. Try `compute_scc(m, year=2020)`.") : nothing
@@ -134,11 +134,11 @@ function compute_scc(
     # the marginal model so we can normalize to $ per ton
     mm = get_marginal_model(m, year=year, pulse_size=pulse_size)   # Returns a marginal model that has already been run
 
-    if n===nothing
+    if n === nothing
         # Run the "best guess" social cost calculation
         run(mm)
         scc = mm[:EquityWeighting, :td_totaldiscountedimpacts] / undiscount_scc(mm.base, year)
-    elseif n<1
+    elseif n < 1
         error("Invalid `n` value, only values >=1 allowed.")
     else
         # Run a Monte Carlo simulation
@@ -149,7 +149,7 @@ function compute_scc(
        
         seed !== nothing ? Random.seed!(seed) : nothing
         Mimi.set_payload!(simdef, (Vector{Float64}(undef, n), year))  # pass the year and a vector for storing SCC values to the `run` function
-        si = run(simdef, mm, n, trials_output_filename = trials_output_filename, post_trial_func = _scc_post_trial_func)
+        si = run(simdef, mm, n, trials_output_filename=trials_output_filename, post_trial_func=_scc_post_trial_func)
         scc = Mimi.payload(si)[1]   # collect the values computed during the post-trial function        
     end
 
@@ -191,7 +191,7 @@ specified by the `eta` and `prtp` parameters, which will  update the values of e
 ptp_timepreference in the model.  If no values are provided, the discount factors will be computed using the 
 default PAGE values of emuc_utilitiyconvexity=1.1666666667 and ptp_timepreference=1.0333333333.    
 """
-function compute_scc_mm(m::Model = get_model(); year::Union{Int, Nothing} = nothing, eta::Union{Float64, Nothing} = nothing, prtp::Union{Float64, Nothing} = nothing, pulse_size = 100000.)
+function compute_scc_mm(m::Model=get_model(); year::Union{Int,Nothing}=nothing, eta::Union{Float64,Nothing}=nothing, prtp::Union{Float64,Nothing}=nothing, pulse_size=100000.)
     year === nothing ? error("Must specify an emission year. Try `compute_scc(m, year=2020)`.") : nothing
     !(year in page_years) ? error("Cannot compute the scc for year $year, year must be within the model's time index $page_years.") : nothing 
 
@@ -216,7 +216,7 @@ function compute_scc_mm(m::Model = get_model(); year::Union{Int, Nothing} = noth
     mm = get_marginal_model(m, year=year, pulse_size=pulse_size)   # Returns a marginal model that has already been run
     scc = mm[:EquityWeighting, :td_totaldiscountedimpacts] / undiscount_scc(mm.base, year)
 
-    return (scc = scc, mm = mm)
+return (scc = scc, mm = mm)
 end
 
 """
@@ -229,7 +229,7 @@ Note that the returned MarginalModel has already been run. The `pulse_size` defa
 to 100_000 metric megatonnes of CO2 (Mtonne CO2), and is spread over all years within the 
 period following `year`.
 """
-function get_marginal_model(m::Model = get_model(); year::Union{Int, Nothing} = nothing, pulse_size = 100000.)
+function get_marginal_model(m::Model=get_model(); year::Union{Int,Nothing}=nothing, pulse_size=100000.)
     year === nothing ? error("Must specify an emission year. Try `get_marginal_model(m, year=2020)`.") : nothing
     !(year in page_years) ? error("Cannot add marginal emissions in $year, year must be within the model's time index $page_years.") : nothing
     

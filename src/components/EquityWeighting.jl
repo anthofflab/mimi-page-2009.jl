@@ -8,7 +8,7 @@
     # Impacts across all gases
     pop_population = Parameter(index=[time, region], unit="million person")
 
-    #Total and Per-Capita Abatement and Adaptation Costs
+    # Total and Per-Capita Abatement and Adaptation Costs
     tct_percap_totalcosts_total = Parameter(index=[time, region], unit="\$/person")
     act_adaptationcosts_total = Parameter(index=[time, region], unit="\$million")
     act_percap_adaptationcosts = Parameter(index=[time, region], unit="\$/person")
@@ -109,7 +109,7 @@
             if is_first(tt)
                 v.yp_yearsperiod[TimestepIndex(1)] = p.y_year[TimestepIndex(1)] - p.y_year_0
             else
-                v.yp_yearsperiod[tt] = p.y_year[tt] - p.y_year[tt-1]
+                v.yp_yearsperiod[tt] = p.y_year[tt] - p.y_year[tt - 1]
             end
 
             if is_first(tt)

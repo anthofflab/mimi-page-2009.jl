@@ -29,7 +29,7 @@ if regenerate
     MimiPAGE2009.do_monte_carlo_runs(100_000)
     df = DataFrame(load(joinpath(@__DIR__, "../output/mimipagemontecarlooutput.csv")))
 
-     for ii in 1:nrow(compare)
+    for ii in 1:nrow(compare)
         name = Symbol(compare[ii, :Variable_Name])
         if kurtosis(df[name]) > 2.9 # exponential distribution
             if name == :tpc # negative across all quantiles
@@ -62,7 +62,7 @@ for ii in 1:nrow(compare)
 
         expected = transform(compare[ii, Symbol("perc_$(trunc(Int, qval * 100))")])
 
-        #println("$name x $qval: $estimated ≈ $expected rtol=$(ceil(confidence * stderr, -trunc(Int, log10(stderr))))")
-        @test estimated ≈ expected rtol=ceil(confidence * stderr; digits = -trunc(Int, log10(stderr)))
+        # println("$name x $qval: $estimated ≈ $expected rtol=$(ceil(confidence * stderr, -trunc(Int, log10(stderr))))")
+        @test estimated ≈ expected rtol = ceil(confidence * stderr; digits=-trunc(Int, log10(stderr)))
     end
 end

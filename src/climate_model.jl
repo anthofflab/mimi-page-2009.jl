@@ -19,7 +19,7 @@ m = Model()
 set_dimension!(m, :time, [2009, 2010, 2020, 2030, 2040, 2050, 2075, 2100, 2150, 2200])
 set_dimension!(m, :region, ["EU", "USA", "OECD","USSR","China","SEAsia","Africa","LatAmerica"])
 
-#add all the components
+# add all the components
 add_comp!(m,co2emissions)
 add_comp!(m, co2cycle)
 add_comp!(m, co2forcing)
@@ -36,7 +36,7 @@ add_comp!(m, SulphateForcing)
 add_comp!(m, TotalForcing)
 add_comp!(m, ClimateTemperature)
 
-#connect parameters together
+# connect parameters together
 
 set_param!(m, :y_year, [2009.,2010.,2020.,2030.,2040.,2050.,2075.,2100.,2150.,2200.])
 set_param!(m, :y_year_0, 2008.)

@@ -25,9 +25,9 @@ run(m)
 @test !isnan(m[:Discontinuity, :isat_per_cap_DiscImpactperCapinclSaturation][10,8])
 @test !isnan(m[:Discontinuity, :rcons_per_cap_DiscRemainConsumption][10])
 
-#validating - comparison spreadsheet has discontinuity occuring in 2200
-#keep running model until m[:Discontinuity,:occurdis_occurrencedummy] shows discontiuity occuring in 2200
-output=m[:Discontinuity,:rcons_per_cap_DiscRemainConsumption]
-validation=readpagedata(m,"test/validationdata/rcons_per_cap_DiscRemainConsumption.csv")
+# validating - comparison spreadsheet has discontinuity occuring in 2200
+# keep running model until m[:Discontinuity,:occurdis_occurrencedummy] shows discontiuity occuring in 2200
+output = m[:Discontinuity,:rcons_per_cap_DiscRemainConsumption]
+validation = readpagedata(m, "test/validationdata/rcons_per_cap_DiscRemainConsumption.csv")
 
-@test output ≈ validation rtol=1e-2
+@test output ≈ validation rtol = 1e-2
